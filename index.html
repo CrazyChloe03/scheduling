@@ -3,31 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Web App</title>
-</head>
-<body>
-
-    <h1>Welcome to the Python Web App!</h1>
-    
-    <button onclick="runPythonCode()">Run Python Code</button>
-
-    <!-- Add a div element to display the output -->
-    <div id="output"></div>
-
+    <title>Timetable</title>
     <script>
-        function runPythonCode() {
-            fetch('plan.py')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('output').innerHTML = "Executing Python Code:\n\n" + data;
-                    // You can modify this part to run the Python code on a server.
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('output').innerHTML = "Failed to fetch Python code.";
-                });
-        }
-    </script>
+        // List of names
+        var names = ["Jerry", "Jack", "Aaron", "Ambrose", "Oscar", "Kevin", "Boyan"];
 
-</body>
-</html>
+        // Function to generate random timetable data
+        function generateTimetable() {
+            var timetable = {};
+            var days = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"];
+            for (var i = 0; i < days.length; i++) {
+                var randomName = names[Math.floor(Math.random() * names.length)];
+                timetable[days[i]] = randomName;
+            }
+            return timetable;
+        }
+
+        // Function to display the timetable on the webpage
+        function displayTimetable() {
+            var timetableData = generateTimetable();
+            var tableBody = document.getElementById("timetable-body");
+            for (var day in timetableData) {
+                var row = tableBody.insertRow();
+                var cellDay = row.insertCell(0);
