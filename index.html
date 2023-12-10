@@ -8,6 +8,7 @@
     <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
     <script>
         var names = ["Jerry", "Jack", "Aaron", "Ambrose", "Oscar", "Kevin", "Boyan"];
+        var countdown = 30; // Initial countdown value in seconds
 
         function getTimetableData() {
             var timetableData = generateTimetable(); // Always generate new data
@@ -56,17 +57,30 @@
             html2pdf(element, opt);
         }
 
+        function updateCountdown() {
+            var countdownDisplay = document.getElementById("countdown");
+            countdownDisplay.innerText = countdown + " seconds";
+        }
+
         // Refresh timetable every 30 seconds
-        setInterval(displayTimetable, 30000);
+        setInterval(function() {
+            countdown -= 1;
+            updateCountdown();
+            if (countdown <= 0) {
+                countdown = 30; // Reset countdown
+                displayTimetable();
+            }
+        }, 1000);
 
         window.onload = function () {
             displayTimetable(); // Display timetable on page load
-            setInterval(displayTimetable, 30000); // Refresh timetable every 30 seconds
+            updateCountdown();
         };
     </script>
 </head>
 <body>
     <h1>Timetable</h1>
+    <p>Next refresh in: <span id="countdown">30 seconds</span></p>
     <table border="1">
         <thead>
             <tr>
