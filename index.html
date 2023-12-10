@@ -26,3 +26,28 @@
             for (var day in timetableData) {
                 var row = tableBody.insertRow();
                 var cellDay = row.insertCell(0);
+                var cellName = row.insertCell(1);
+                cellDay.innerHTML = day;
+                cellDay.lang = "zh";  // Language attribute for Chinese
+                cellName.innerHTML = timetableData[day];
+                cellName.lang = "und";  // Language attribute for undetermined/multiple languages
+            }
+        }
+
+        // Display the timetable when the page loads
+        window.onload = displayTimetable;
+    </script>
+</head>
+<body>
+    <h1>Timetable</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody id="timetable-body"></tbody>
+    </table>
+</body>
+</html>
