@@ -1,96 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timetable</title>
-    <!-- Include html2pdf library -->
-    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
-    <script>
-        var names = ["Jerry", "Jack", "Aaron", "Ambrose", "Oscar", "Kevin", "Boyan"];
-        var countdown = 30; // Initial countdown value in seconds
-
-        function getTimetableData() {
-            var timetableData = generateTimetable(); // Always generate new data
-            localStorage.setItem("timetableData", JSON.stringify(timetableData));
-            return timetableData;
-        }
-
-        function generateTimetable() {
-            var timetable = {};
-            var days = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"];
-            for (var i = 0; i < days.length; i++) {
-                var randomName = names[Math.floor(Math.random() * names.length)];
-                timetable[days[i]] = randomName;
-            }
-            return timetable;
-        }
-
-        function displayTimetable() {
-            var timetableData = getTimetableData();
-            var tableBody = document.getElementById("timetable-body");
-            tableBody.innerHTML = ""; // Clear existing rows
-            for (var day in timetableData) {
-                var row = tableBody.insertRow();
-                var cellDay = row.insertCell(0);
-                var cellName = row.insertCell(1);
-                cellDay.innerHTML = day;
-                cellDay.lang = "zh";
-                cellName.innerHTML = timetableData[day];
-                cellName.lang = "und";
-            }
-        }
-
-        function downloadTimetableAsPDF() {
-            var element = document.getElementById('timetable-body');
-            
-            // Create a configuration object for html2pdf
-            var opt = {
-                margin: 10,
-                filename: 'timetable.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            // Use html2pdf library to generate and download the PDF
-            html2pdf(element, opt);
-        }
-
-        function updateCountdown() {
-            var countdownDisplay = document.getElementById("countdown");
-            countdownDisplay.innerText = countdown + " seconds";
-        }
-
-        // Refresh timetable every 30 seconds
-        setInterval(function() {
-            countdown -= 1;
-            updateCountdown();
-            if (countdown <= 0) {
-                countdown = 30; // Reset countdown
-                displayTimetable();
-            }
-        }, 1000);
-
-        window.onload = function () {
-            displayTimetable(); // Display timetable on page load
-            updateCountdown();
-        };
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>倒计时网站</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Timetable</h1>
-    <p>Next refresh in: <span id="countdown">30 seconds</span></p>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Day</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody id="timetable-body"></tbody>
-    </table>
-    
-    <button onclick="downloadTimetableAsPDF()">Download Timetable as PDF</button>
+  <div class="countdown-container">
+    <h1>距离下一次刷新还有<span id="countdown"></span>秒</h1>
+    <p>随机数字: <span id="randomNumber"></span></p>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
