@@ -10,11 +10,8 @@
         var names = ["Jerry", "Jack", "Aaron", "Ambrose", "Oscar", "Kevin", "Boyan"];
 
         function getTimetableData() {
-            var timetableData = JSON.parse(localStorage.getItem("timetableData"));
-            if (!timetableData) {
-                timetableData = generateTimetable();
-                localStorage.setItem("timetableData", JSON.stringify(timetableData));
-            }
+            var timetableData = generateTimetable(); // Always generate new data
+            localStorage.setItem("timetableData", JSON.stringify(timetableData));
             return timetableData;
         }
 
