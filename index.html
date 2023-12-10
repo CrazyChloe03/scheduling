@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timetable</title>
+    <!-- Include html2pdf library -->
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
     <script>
-        // List of names
         var names = ["Jerry", "Jack", "Aaron", "Ambrose", "Oscar", "Kevin", "Boyan"];
 
-        // Function to generate random timetable data
+        function getTimetableData() {
+            var timetableData = JSON.parse(localStorage.getItem("timetableData"));
+            if (!timetableData) {
+                timetableData = generateTimetable();
+                localStorage.setItem("timetableData", JSON.stringify(timetableData));
+            }
+            return timetableData;
+        }
+
         function generateTimetable() {
             var timetable = {};
             var days = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"];
@@ -19,22 +28,36 @@
             return timetable;
         }
 
-        // Function to display the timetable on the webpage
         function displayTimetable() {
-            var timetableData = generateTimetable();
+            var timetableData = getTimetableData();
             var tableBody = document.getElementById("timetable-body");
             for (var day in timetableData) {
                 var row = tableBody.insertRow();
                 var cellDay = row.insertCell(0);
                 var cellName = row.insertCell(1);
                 cellDay.innerHTML = day;
-                cellDay.lang = "zh";  // Language attribute for Chinese
+                cellDay.lang = "zh";
                 cellName.innerHTML = timetableData[day];
-                cellName.lang = "und";  // Language attribute for undetermined/multiple languages
+                cellName.lang = "und";
             }
         }
 
-        // Display the timetable when the page loads
+        function downloadTimetableAsPDF() {
+            var element = document.getElementById('timetable-body');
+            
+            // Create a configuration object for html2pdf
+            var opt = {
+                margin: 10,
+                filename: 'timetable.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Use html2pdf library to generate and download the PDF
+            html2pdf(element, opt);
+        }
+
         window.onload = displayTimetable;
     </script>
 </head>
@@ -49,5 +72,7 @@
         </thead>
         <tbody id="timetable-body"></tbody>
     </table>
+    
+    <button onclick="downloadTimetableAsPDF()">Download Timetable as PDF</button>
 </body>
 </html>
