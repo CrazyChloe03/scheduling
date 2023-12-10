@@ -11,16 +11,20 @@
     
     <button onclick="runPythonCode()">Run Python Code</button>
 
+    <!-- Add a div element to display the output -->
+    <div id="output"></div>
+
     <script>
         function runPythonCode() {
-            fetch('main.py')
+            fetch('plan.py')
                 .then(response => response.text())
                 .then(data => {
-                    alert("Executing Python Code:\n\n" + data);
+                    document.getElementById('output').innerHTML = "Executing Python Code:\n\n" + data;
+                    // You can modify this part to run the Python code on a server.
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert("Failed to fetch Python code.");
+                    document.getElementById('output').innerHTML = "Failed to fetch Python code.";
                 });
         }
     </script>
