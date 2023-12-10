@@ -31,6 +31,7 @@
         function displayTimetable() {
             var timetableData = getTimetableData();
             var tableBody = document.getElementById("timetable-body");
+            tableBody.innerHTML = ""; // Clear existing rows
             for (var day in timetableData) {
                 var row = tableBody.insertRow();
                 var cellDay = row.insertCell(0);
@@ -58,7 +59,13 @@
             html2pdf(element, opt);
         }
 
-        window.onload = displayTimetable;
+        // Refresh timetable every 30 seconds
+        setInterval(displayTimetable, 30000);
+
+        window.onload = function () {
+            displayTimetable(); // Display timetable on page load
+            setInterval(displayTimetable, 30000); // Refresh timetable every 30 seconds
+        };
     </script>
 </head>
 <body>
