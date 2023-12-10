@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Web App</title>
+</head>
+<body>
+
+    <h1>Welcome to the Python Web App!</h1>
+    
+    <button onclick="runPythonCode()">Run Python Code</button>
+
+    <script>
+        function runPythonCode() {
+            fetch('main.py')
+                .then(response => response.text())
+                .then(data => {
+                    alert("Executing Python Code:\n\n" + data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Failed to fetch Python code.");
+                });
+        }
+    </script>
+
+</body>
+</html>
